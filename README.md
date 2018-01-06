@@ -49,7 +49,19 @@ class ServiceName {
     ...
   }
 
-  hello() { // Private;
+  hello() { // Private
+    ...
+  }
+
+  started() { // Reserved for moleculer, fired when started
+    ...
+  }
+
+  created() { // Reserved for moleculer, fired when created
+    ...
+  }
+
+  stopped() { // Reserved for moleculer, fired when created
     ...
   }
 }

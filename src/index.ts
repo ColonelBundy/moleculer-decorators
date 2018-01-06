@@ -12,8 +12,13 @@ export function Event(target, key, descriptor) {
   (target.events || (target.events = {}))[key] = descriptor.value
 }
 
-export function Action(target, key, descriptor) {
-  (target.actions || (target.actions = {}))[key] = descriptor.value
+export function Action(options?: any) {
+  return function(target, key, descriptor) {
+    (target.actions || (target.actions = {}))[key] = (options ? {
+      ...options,
+      handler: descriptor.value
+    } : descriptor.value);
+  }
 }
 
 export function Service(options: Options) {
@@ -57,5 +62,3 @@ export function Service(options: Options) {
     });
   }
 }
-
-

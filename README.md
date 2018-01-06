@@ -7,7 +7,10 @@ decorators for moleculer
 const moleculer = require('moleculer');
 const { Service, Action, Event, Method } = require('moleculer-decorators');
 const web = require('moleculer-web');
-const broker = new moleculer.ServiceBroker();
+const broker = new moleculer.ServiceBroker({
+  logger: console,
+  logLevel: "debug",
+});
 
 @Service({
   mixins: [web],

@@ -61,7 +61,7 @@ class ServiceName {
     ...
   }
 
-  stopped() { // Reserved for moleculer, fired when created
+  stopped() { // Reserved for moleculer, fired when stopped
     ...
   }
 }

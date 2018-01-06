@@ -1,13 +1,13 @@
 {
   "name": "moleculer-decorators",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "decorators for moleculer",
   "main": "dist/index.js",
   "types" : "dist/index.d.ts",
   "scripts": {
     "clean": "rimraf dist/*",
     "compile": "yarn clean && tsc && node dist/index.js",
-    "dev": "nodemon -e ts --exec \"yarn compile\""
+    "dev": "nodemon --delay 2000 -e ts --exec \"yarn compile\""
   },
   "author": "Colonelbundy <colonelbundy@gmail.com>",
   "license": "MIT",

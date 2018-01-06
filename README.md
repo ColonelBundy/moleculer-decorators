@@ -22,8 +22,20 @@ const broker = new moleculer.ServiceBroker({
   }
 })
 class ServiceName {
-  @Action
+  @Action()
   Login(ctx) {
+    ...
+  }
+
+  // With options
+  @Action({
+    cache: false,
+    params: {
+      a: "number",
+      b: "number"
+    }
+  })
+  Login2(ctx) {
     ...
   }
 

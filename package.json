@@ -15,7 +15,9 @@
     "type": "git",
     "url": "git+https://github.com/ColonelBundy/moleculer-decorators.git"
    },
-  "keywords": [],
+  "keywords": [
+    "microservices", "microservice", "decorator", "es6", "typescript", "moleculer"
+  ],
   "bugs": {
    "url": "https://github.com/ColonelBundy/moleculer-decorators/issues"
   },

@@ -1,4 +1,7 @@
-# Moleculer Decorators [![npm version](https://badge.fury.io/js/moleculer-decorators.svg)](https://badge.fury.io/js/moleculer-decorators)
+![Moleculer logo](https://raw.githubusercontent.com/ice-services/moleculer/HEAD/docs/assets/logo.png)
+
+[![npm version](https://badge.fury.io/js/moleculer-decorators.svg)](https://badge.fury.io/js/moleculer-decorators) [![GitHub issues](https://img.shields.io/github/issues/ColonelBundy/moleculer-decorators.svg)](https://github.com/ColonelBundy/moleculer-decorators/issues) [![GitHub license](https://img.shields.io/github/license/ColonelBundy/moleculer-decorators.svg)](https://github.com/ColonelBundy/moleculer-decorators/blob/master/LICENSE)
+# Moleculer Decorators
 Decorators for moleculer
 
 # Example usage
@@ -68,5 +71,7 @@ class ServiceName {
 
 broker.createService(ServiceName);
 broker.start();
-
 ```
+
+# License
+Moleculer Decorators is available under the [MIT license](https://tldrlegal.com/license/mit-license).

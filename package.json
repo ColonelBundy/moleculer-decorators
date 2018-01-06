@@ -1,8 +1,9 @@
 {
   "name": "moleculer-decorators",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "decorators for moleculer",
+  "main": "dist/index.js",
+  "types" : "dist/index.d.ts",
   "scripts": {
     "clean": "rimraf dist/*",
     "compile": "yarn clean && tsc && node dist/index.js",
@@ -10,6 +11,15 @@
   },
   "author": "Colonelbundy <colonelbundy@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ColonelBundy/moleculer-decorators.git"
+   },
+  "keywords": [],
+  "bugs": {
+   "url": "https://github.com/ColonelBundy/moleculer-decorators/issues"
+  },
+  "homepage":"https://github.com/ColonelBundy/moleculer-decorators#readme",
   "dependencies": {
     "app-module-path": "^2.2.0",
     "moleculer": "^0.11.8"

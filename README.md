@@ -1,9 +1,9 @@
-# moleculer-decorators
-decorators for moleculer
+# Moleculer Decorators [![npm version](https://badge.fury.io/js/moleculer-decorators.svg)](https://badge.fury.io/js/moleculer-decorators)
+Decorators for moleculer
 
-# Example usage with moleculer-web
+# Example usage
 
-```
+```js
 const moleculer = require('moleculer');
 const { Service, Action, Event, Method } = require('moleculer-decorators');
 const web = require('moleculer-web');

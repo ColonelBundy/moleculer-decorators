@@ -21,7 +21,7 @@ export function Action(options?: any) {
   }
 }
 
-export function Service(options: Options) {
+export function Service(options?: Options) {
   return function(target) {
 
     if (options.mixins) {

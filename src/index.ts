@@ -21,8 +21,9 @@ export function Action(options?: any) {
   }
 }
 
-export function Service(options?: Options) {
+export function Service(options?: Options) : any {
   return function(target) {
+    let base = {}
 
     if (options.mixins) {
       options.mixins.forEach((mixin, index) => {
@@ -30,7 +31,7 @@ export function Service(options?: Options) {
       });
     }
 
-    Object.defineProperty(target, 'name', {
+    Object.defineProperty(base, 'name', {
       value: options.name || target.name,
       writable: false,
       enumerable: true
@@ -40,7 +41,7 @@ export function Service(options?: Options) {
       delete options.name; // not needed
     }
 
-    Object.assign(target, options); // Apply
+    Object.assign(base, options); // Apply
 
     const proto = target.prototype;
     Object.getOwnPropertyNames(proto).forEach(function (key) {
@@ -51,14 +52,16 @@ export function Service(options?: Options) {
       const descriptor = Object.getOwnPropertyDescriptor(proto, key)!
 
       if (key === 'created' || key === 'started' || key === 'stopped') {
-        target[key] = descriptor.value;
+        base[key] = descriptor.value;
         return;
       }
 
       if (key === 'events' || key === 'methods' || key === 'actions') {
-        (target[key] ? Object.assign(target[key], descriptor.value) : target[key] = descriptor.value)
+        (base[key] ? Object.assign(base[key], descriptor.value) : base[key] = descriptor.value)
         return;
       }
     });
+
+    return base;
   }
 }

@@ -30,13 +30,13 @@ export function Service(options?: Options) {
       });
     }
 
-    // hacky way to make naming work
-    if (options.mixins || options.name) {
-      Object.defineProperty(target, 'name', {
-        value: options.name || target.name,
-        writable: false
-      });
+    Object.defineProperty(target, 'name', {
+      value: options.name || target.name,
+      writable: false,
+      enumerable: true
+    });
 
+    if (options.name) {
       delete options.name; // not needed
     }
 

@@ -1,7 +1,12 @@
-import { ServiceSchema } from 'moleculer';
+import { ServiceSchema, Action, ActionHandler } from 'moleculer';
 
 export interface Options extends Partial<ServiceSchema> {
   name?: string
+}
+
+export interface ActionOptions extends Partial<Action> {
+  name?: string,
+  handler?: ActionHandler // Not really used
 }
 
 export function Method(target, key, descriptor) {
@@ -12,7 +17,7 @@ export function Event(target, key, descriptor) {
   (target.events || (target.events = {}))[key] = descriptor.value
 }
 
-export function Action(options?: any) {
+export function Action(options?: ActionOptions) {
   return function(target, key, descriptor) {
     (target.actions || (target.actions = {}))[key] = (options ? {
       ...options,
@@ -65,3 +70,4 @@ export function Service(options?: Options) : any {
     return base;
   }
 }
+

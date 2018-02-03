@@ -1,5 +1,7 @@
 import { ServiceSchema, Action, ActionHandler } from 'moleculer';
 
+const blacklist = ['created', 'started', 'stopped', 'actions', 'methods', 'events'];
+
 export interface Options extends Partial<ServiceSchema> {
   name?: string
 }
@@ -17,7 +19,7 @@ export function Event(target, key, descriptor) {
   (target.events || (target.events = {}))[key] = descriptor.value
 }
 
-export function Action(options?: ActionOptions) {
+export function Action(options: ActionOptions = {}) {
   return function(target, key, descriptor) {
     (target.actions || (target.actions = {}))[key] = (options ? {
       ...options,
@@ -26,7 +28,7 @@ export function Action(options?: ActionOptions) {
   }
 }
 
-export function Service(options?: Options) : any {
+export function Service(options: Options = {}) : any {
   return function(target) {
     let base = {}
 
@@ -50,7 +52,13 @@ export function Service(options?: Options) : any {
 
     const proto = target.prototype;
     Object.getOwnPropertyNames(proto).forEach(function (key) {
-      if (key === 'constructor') { // skip constructor
+      if (key === 'constructor') { // assign items in constructor to base
+        const ServiceClass = new target.prototype[key];
+        Object.getOwnPropertyNames(ServiceClass).forEach(function(key) {
+          if (blacklist.indexOf(key) === -1 && typeof ServiceClass[key] !== 'function') {
+            base[key] = Object.getOwnPropertyDescriptor(ServiceClass, key)!.value
+          }
+        });
         return;
       }
 
@@ -70,4 +78,3 @@ export function Service(options?: Options) : any {
     return base;
   }
 }
-

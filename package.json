@@ -3,7 +3,7 @@
   "version": "1.0.9",
   "description": "decorators for moleculer",
   "main": "dist/index.js",
-  "types" : "dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "clean": "rimraf dist/*",
     "compile": "yarn clean && tsc && node dist/index.js",
@@ -14,18 +14,25 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ColonelBundy/moleculer-decorators.git"
-   },
+  },
   "keywords": [
-    "microservices", "microservice", "decorator", "es6", "typescript", "moleculer"
+    "microservices",
+    "microservice",
+    "decorator",
+    "es6",
+    "typescript",
+    "moleculer"
   ],
   "bugs": {
-   "url": "https://github.com/ColonelBundy/moleculer-decorators/issues"
+    "url": "https://github.com/ColonelBundy/moleculer-decorators/issues"
   },
-  "homepage":"https://github.com/ColonelBundy/moleculer-decorators#readme",
+  "homepage": "https://github.com/ColonelBundy/moleculer-decorators#readme",
   "dependencies": {
+    "lodash": "^4.17.4",
     "moleculer": "^0.11.8"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.100",
     "@types/node": "^7.0.12",
     "nodemon": "^1.11.0",
     "rimraf": "^2.6.1",

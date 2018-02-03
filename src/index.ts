@@ -1,9 +1,14 @@
 import { ServiceSchema, Action, ActionHandler } from 'moleculer';
+import * as _ from 'lodash';
 
 const blacklist = ['created', 'started', 'stopped', 'actions', 'methods', 'events'];
+const defaultServiceOptions: Options = {
+  constructOverride: true
+}
 
 export interface Options extends Partial<ServiceSchema> {
   name?: string
+  constructOverride?: boolean
 }
 
 export interface ActionOptions extends Partial<Action> {
@@ -31,6 +36,7 @@ export function Action(options: ActionOptions = {}) {
 export function Service(options: Options = {}) : any {
   return function(target) {
     let base = {}
+    const _options = _.extend({}, defaultServiceOptions, options);
 
     if (options.mixins) {
       options.mixins.forEach((mixin, index) => {
@@ -48,17 +54,21 @@ export function Service(options: Options = {}) : any {
       delete options.name; // not needed
     }
 
-    Object.assign(base, options); // Apply
+    Object.assign(base, _.omit(options, _.keys(defaultServiceOptions))); // Apply
 
     const proto = target.prototype;
     Object.getOwnPropertyNames(proto).forEach(function (key) {
-      if (key === 'constructor') { // assign items in constructor to base
-        const ServiceClass = new target.prototype[key];
-        Object.getOwnPropertyNames(ServiceClass).forEach(function(key) {
-          if (blacklist.indexOf(key) === -1 && typeof ServiceClass[key] !== 'function') {
-            base[key] = Object.getOwnPropertyDescriptor(ServiceClass, key)!.value
-          }
-        });
+      if (key === 'constructor') {
+        if (_options.constructOverride) { // Override properties defined in @Service
+          const ServiceClass = new target.prototype[key];
+
+          Object.getOwnPropertyNames(ServiceClass).forEach(function(key) {
+            if (blacklist.indexOf(key) === -1 && !_.isFunction(ServiceClass[key])) {
+              base[key] = Object.getOwnPropertyDescriptor(ServiceClass, key)!.value
+            }
+          });
+        }
+
         return;
       }
 

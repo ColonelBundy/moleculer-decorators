@@ -8,6 +8,12 @@
 # Moleculer Decorators
 Decorators for moleculer
 
+## Available options
+```js
+constructOverride: false // True by default, This will override any properties defined in @Service if defined in the constructor as well.
+```
+These are defined in @Service
+
 # Example usage
 
 ```js
@@ -29,6 +35,19 @@ const broker = new moleculer.ServiceBroker({
   }
 })
 class ServiceName {
+
+  // Optional constructor
+  constructor() {
+    this.settings = { // Overrides above by default, to prevent this, add "constructOverride: false" to @Service
+      port: 3001
+    }
+  }
+
+  // Without constructor (typescript)
+  settings = {
+    port: 3001
+  }
+
   @Action()
   Login(ctx) {
     ...
@@ -76,6 +95,12 @@ class ServiceName {
 broker.createService(ServiceName);
 broker.start();
 ```
+
+# Usage with moleculer-runner
+Simply export the service instead of starting a broker manually.
+```js 
+  export = ServiceName 
+``` 
 
 # License
 Moleculer Decorators is available under the [MIT license](https://tldrlegal.com/license/mit-license).

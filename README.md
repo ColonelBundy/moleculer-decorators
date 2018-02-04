@@ -99,7 +99,7 @@ broker.start();
 # Usage with moleculer-runner
 Simply export the service instead of starting a broker manually.
 ```js 
-  export = ServiceName 
+  export default class ServiceName 
 ``` 
 
 # License

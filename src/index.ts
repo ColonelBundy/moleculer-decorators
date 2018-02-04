@@ -2,6 +2,7 @@ import { ServiceSchema, Action, ActionHandler } from 'moleculer';
 import * as _ from 'lodash';
 
 const blacklist = ['created', 'started', 'stopped', 'actions', 'methods', 'events'];
+const blacklist2 = ['metadata', 'settings', 'mixins', 'name', 'version'].concat(blacklist);
 const defaultServiceOptions: Options = {
   constructOverride: true
 }
@@ -51,6 +52,7 @@ export function Service(options: Options = {}) : any {
     Object.assign(base, _.omit(options, _.keys(defaultServiceOptions))); // Apply
 
     const proto = target.prototype;
+    const vars = [];
     Object.getOwnPropertyNames(proto).forEach(function (key) {
       if (key === 'constructor') {
         if (_options.constructOverride) { // Override properties defined in @Service
@@ -59,16 +61,46 @@ export function Service(options: Options = {}) : any {
           Object.getOwnPropertyNames(ServiceClass).forEach(function(key) {
             if (blacklist.indexOf(key) === -1 && !_.isFunction(ServiceClass[key])) {
               base[key] = Object.getOwnPropertyDescriptor(ServiceClass, key)!.value
+              if (blacklist2.indexOf(key) === -1) { // Needed, otherwize if the service is used as a mixin, these variables will overwrite the toplevel's
+                vars[key] = Object.getOwnPropertyDescriptor(ServiceClass, key)!.value
+              }
             }
           });
-        }
+        
+          /* Insane hack below :D
+          * It's needed since moleculer don't transfer all defined props in the
+          * schema to the actual service, so we have to do it.
+          */ 
+          const bypass: any = Object.defineProperty, // typescript fix
+                obj: any = {}; // placeholder
 
+          bypass(obj, 'created', {
+            value: function created() {
+              for (let key in vars) { 
+                this[key] = vars[key];
+              }
+              
+              if (!_.isNil(Object.getOwnPropertyDescriptor(proto, 'created'))) {
+                Object.getOwnPropertyDescriptor(proto, 'created').value.call(this);
+              }
+            },
+            writable: true,
+            enumerable: true,
+            configurable: true
+          });
+
+          base['created'] = obj.created;
+        }
         return;
       }
 
       const descriptor = Object.getOwnPropertyDescriptor(proto, key)!
 
-      if (key === 'created' || key === 'started' || key === 'stopped') {
+      if (key === 'created' && !_options.constructOverride) {
+        base[key] = descriptor.value;
+      }
+
+      if (key === 'started' || key === 'stopped') {
         base[key] = descriptor.value;
         return;
       }

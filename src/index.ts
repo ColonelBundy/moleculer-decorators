@@ -38,12 +38,6 @@ export function Service(options: Options = {}) : any {
     let base = {}
     const _options = _.extend({}, defaultServiceOptions, options);
 
-    if (options.mixins) {
-      options.mixins.forEach((mixin, index) => {
-        options.mixins[index].name = options.name || target.name; // must override mixins name
-      });
-    }
-
     Object.defineProperty(base, 'name', {
       value: options.name || target.name,
       writable: false,

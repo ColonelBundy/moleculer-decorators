@@ -75,10 +75,6 @@ class ServiceName {
     ...
   }
 
-  hello() { // Private
-    ...
-  }
-
   started() { // Reserved for moleculer, fired when started
     ...
   }

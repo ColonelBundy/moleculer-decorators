@@ -1,10 +1,24 @@
-import { ServiceSchema, Action, ActionHandler } from 'moleculer';
+import { ServiceSchema, Action, ActionHandler, LoggerInstance, ServiceMethods, ServiceEvents, Actions, Context, ServiceSettingSchema, GenericObject } from 'moleculer';
 import * as _ from 'lodash';
+import Bluebird = require('bluebird');
 
 const blacklist = ['created', 'started', 'stopped', 'actions', 'methods', 'events'];
 const blacklist2 = ['metadata', 'settings', 'mixins', 'name', 'version'].concat(blacklist);
 const defaultServiceOptions: Options = {
   constructOverride: true
+}
+
+export class BaseSchema {
+  logger: LoggerInstance;
+  name: string;
+  version?: string | number;
+  settings?: ServiceSettingSchema;
+  metadata?: GenericObject;
+  mixins?: Array<ServiceSchema>;
+
+  actions?: Actions;
+  methods?: ServiceMethods;
+  events?: ServiceEvents;
 }
 
 export interface Options extends Partial<ServiceSchema> {

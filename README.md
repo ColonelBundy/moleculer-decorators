@@ -18,7 +18,7 @@ These are defined in @Service
 
 ```js
 const moleculer = require('moleculer');
-const { Service, Action, Event, Method } = require('moleculer-decorators');
+const { Service, Action, Event, Method, BaseSchema } = require('moleculer-decorators');
 const web = require('moleculer-web');
 const broker = new moleculer.ServiceBroker({
   logger: console,
@@ -34,7 +34,7 @@ const broker = new moleculer.ServiceBroker({
     ]
   }
 })
-class ServiceName {
+class ServiceName extends BaseSchema {
 
   // Optional constructor
   constructor() {

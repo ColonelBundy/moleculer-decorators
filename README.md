@@ -6,13 +6,13 @@
 [![GitHub issues](https://img.shields.io/github/issues/ColonelBundy/moleculer-decorators.svg)](https://github.com/ColonelBundy/moleculer-decorators/issues) 
 [![GitHub license](https://img.shields.io/github/license/ColonelBundy/moleculer-decorators.svg)](https://github.com/ColonelBundy/moleculer-decorators/blob/master/LICENSE)
 # Moleculer Decorators
-Decorators for moleculer
+> Decorators for moleculer
 
 ## Available options
 ```js
 constructOverride: false // True by default, This will override any properties defined in @Service if defined in the constructor as well.
 ```
-These are defined in @Service
+> These are defined in @Service
 
 # Example usage
 
@@ -93,9 +93,10 @@ broker.start();
 ```
 
 # Usage with moleculer-runner
-Simply export the service instead of starting a broker manually.
+> Simply export the service instead of starting a broker manually.    
+> It must be a commonjs module.
 ```js 
-  export default class ServiceName 
+  module.exports = ServiceName 
 ``` 
 
 # License

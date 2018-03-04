@@ -1,4 +1,4 @@
-import { ServiceSchema, Action, ActionHandler, LoggerInstance, ServiceMethods, ServiceEvents, Actions, Context, ServiceSettingSchema, GenericObject } from 'moleculer';
+import { ServiceSchema, Action, ActionHandler, LoggerInstance, ServiceMethods, ServiceEvents, Actions, Context, ServiceSettingSchema, GenericObject, ServiceBroker, ServiceEvent, ServiceEventHandler, ServiceLocalEventHandler} from 'moleculer';
 import * as _ from 'lodash';
 import Bluebird = require('bluebird');
 
@@ -8,6 +8,7 @@ const defaultServiceOptions: Options = {
   constructOverride: true
 }
 
+// Needed for intellisense only pretty much.
 export class BaseSchema {
   logger: LoggerInstance;
   name: string;
@@ -28,23 +29,38 @@ export interface Options extends Partial<ServiceSchema> {
 
 export interface ActionOptions extends Partial<Action> {
   name?: string,
-  handler?: ActionHandler // Not really used
+  handler?: ActionHandler<any>, // Not really used
+  skipHandler?: boolean
+}
+
+export interface EventOptions extends Partial<ServiceEvent> {
+  name?: string;
+  group?: string;
+  handler?: ServiceEventHandler | ServiceLocalEventHandler; // not really used
 }
 
 export function Method(target, key, descriptor) {
   (target.methods || (target.methods = {}))[key] = descriptor.value
 }
 
-export function Event(target, key, descriptor) {
-  (target.events || (target.events = {}))[key] = descriptor.value
+export function Event(options?: EventOptions) {
+  return function(target, key, descriptor) {
+    (target.events || (target.events = {}))[key] = (options ? {
+      ...options,
+      handler: descriptor.value
+    } : descriptor.value);
+  }
 }
 
 export function Action(options: ActionOptions = {}) {
   return function(target, key, descriptor) {
+    if (!options.skipHandler) {
+      options.handler = descriptor.value;
+    }
+    
     (target.actions || (target.actions = {}))[key] = (options ? {
       ...options,
-      handler: descriptor.value
-    } : descriptor.value);
+    } : (options.skipHandler ? '' : descriptor.value));
   }
 }
 
@@ -82,20 +98,22 @@ export function Service(options: Options = {}) : any {
           });
         
           /* Insane hack below :D
-          * It's needed since moleculer don't transfer all defined props in the
-          * schema to the actual service, so we have to do it.
+          * It's needed since moleculer don't transfer all defined props in the schema to the actual service, so we have to do it.
+          * Side note: This is quite hacky and would be a performance loss if the created function would be called over and over, since it's called once, it's more than fine :)
           */ 
           const bypass: any = Object.defineProperty, // typescript fix
                 obj: any = {}; // placeholder
 
+          // Defining our 'own' created function
           bypass(obj, 'created', {
-            value: function created() {
+            value: function created(broker: ServiceBroker) {
               for (let key in vars) { 
                 this[key] = vars[key];
               }
               
+              // Check if user defined a created function, if so, we need to call it after ours.
               if (!_.isNil(Object.getOwnPropertyDescriptor(proto, 'created'))) {
-                Object.getOwnPropertyDescriptor(proto, 'created').value.call(this);
+                Object.getOwnPropertyDescriptor(proto, 'created').value.call(this, broker);
               }
             },
             writable: true,

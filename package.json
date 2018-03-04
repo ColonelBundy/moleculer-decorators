@@ -1,13 +1,14 @@
 {
   "name": "moleculer-decorators",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "decorators for moleculer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "clean": "rimraf dist/*",
     "compile": "yarn clean && tsc && node dist/index.js",
-    "dev": "nodemon --delay 2000 -e ts --exec \"yarn compile\""
+    "dev": "nodemon --delay 2000 -e ts --exec \"yarn compile\"",
+    "test12": "nodemon --delay 2000 -e ts --exec \"yarn clean && tsc && node dist/testing/012.js\""
   },
   "author": "Colonelbundy <colonelbundy@gmail.com>",
   "license": "MIT",
@@ -29,13 +30,13 @@
   "homepage": "https://github.com/ColonelBundy/moleculer-decorators#readme",
   "dependencies": {
     "lodash": "^4.17.4",
-    "moleculer": "^0.11.8"
+    "moleculer": "moleculerjs/moleculer"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.100",
     "@types/node": "^7.0.12",
     "nodemon": "^1.11.0",
     "rimraf": "^2.6.1",
-    "typescript": "^2.2.2"
+    "typescript": "^2.7.2"
   }
 }

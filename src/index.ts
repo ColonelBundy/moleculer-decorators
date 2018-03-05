@@ -59,6 +59,8 @@ export function Action(options: ActionOptions = {}) {
   return function(target, key, descriptor) {
     if (!options.skipHandler) {
       options.handler = descriptor.value;
+    } else {
+      delete options.skipHandler;
     }
     
     (target.actions || (target.actions = {}))[key] = (options ? {

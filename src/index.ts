@@ -2,24 +2,26 @@ import { ServiceSchema, Action, ActionHandler, LoggerInstance, ServiceMethods, S
 import * as _ from 'lodash';
 import Bluebird = require('bluebird');
 
-const blacklist = ['created', 'started', 'stopped', 'actions', 'methods', 'events'];
+const blacklist = ['created', 'started', 'stopped', 'actions', 'methods', 'events', 'broker', 'logger'];
 const blacklist2 = ['metadata', 'settings', 'mixins', 'name', 'version'].concat(blacklist);
 const defaultServiceOptions: Options = {
   constructOverride: true
 }
 
 // Needed for intellisense only pretty much.
-export class BaseSchema {
+export declare class BaseSchema {
   logger: LoggerInstance;
   name: string;
-  version?: string | number;
-  settings?: ServiceSettingSchema;
-  metadata?: GenericObject;
-  mixins?: Array<ServiceSchema>;
+  broker: ServiceBroker;
 
-  actions?: Actions;
-  methods?: ServiceMethods;
-  events?: ServiceEvents;
+  version: string | number;
+  settings: ServiceSettingSchema;
+  metadata: GenericObject;
+  mixins: Array<ServiceSchema>;
+
+  actions: Actions;
+  methods: ServiceMethods;
+  events: ServiceEvents;
 }
 
 export interface Options extends Partial<ServiceSchema> {

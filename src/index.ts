@@ -5,7 +5,8 @@ import Bluebird = require('bluebird');
 const blacklist = ['created', 'started', 'stopped', 'actions', 'methods', 'events', 'broker', 'logger'];
 const blacklist2 = ['metadata', 'settings', 'mixins', 'name', 'version'].concat(blacklist);
 const defaultServiceOptions: Options = {
-  constructOverride: true
+  constructOverride: true,
+  skipHandler: false // not needed, just for clarity
 }
 
 // Needed for intellisense only pretty much.

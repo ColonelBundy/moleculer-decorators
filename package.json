@@ -30,13 +30,13 @@
   "homepage": "https://github.com/ColonelBundy/moleculer-decorators#readme",
   "dependencies": {
     "lodash": "^4.17.4",
-    "moleculer": "^0.12.1"
+    "moleculer": "^0.13.2"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.100",
     "@types/node": "^7.0.12",
     "nodemon": "^1.11.0",
     "rimraf": "^2.6.1",
-    "typescript": "^2.7.2"
+    "typescript": "^3.0.3"
   }
 }

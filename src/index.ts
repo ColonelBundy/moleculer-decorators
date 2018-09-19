@@ -34,7 +34,7 @@ const defaultServiceOptions: Options = {
 };
 
 // Needed for intellisense only pretty much.
-export declare class BaseSchema {
+export class BaseSchema {
   [x: string]: any;
 
   logger: LoggerInstance;

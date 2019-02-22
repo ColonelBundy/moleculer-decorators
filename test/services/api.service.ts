@@ -1,9 +1,10 @@
-import {IncomingMessage, ServerResponse} from 'http';
-import {Context} from 'moleculer';
+import { IncomingMessage, ServerResponse } from 'http';
+import { Context } from 'moleculer';
 import * as Moleculer from 'moleculer';
-import {BaseSchema, Method, Service} from '../../src';
+import { BaseSchema, Method, Service } from '../../src';
 import * as ApiGateway from 'moleculer-web';
 import 'reflect-metadata';
+
 export interface User {
   id: string;
 }
@@ -17,19 +18,19 @@ const {Errors} = ApiGateway;
     routes: [
       {
         aliases: {
-          'GET getTest/getModel/:withUser': 'GetTest.getModel',
+          'GET getTest/getModel/:withUser': 'GetTest.getModel'
         },
         authentication: true,
         whitelist: [
-          '**',
-        ],
-      },
-    ],
-  },
+          '**'
+        ]
+      }
+    ]
+  }
 })
 class Api extends BaseSchema {
   @Method
-  public async authenticate(ctx: Context, route: string, req: IncomingMessage, res: ServerResponse) {
+    public async authenticate(ctx: Context, route: string, req: IncomingMessage, res: ServerResponse) {
     const accessToken = req.headers.authorization;
     if (accessToken) {
       const user = await this._getUserFromRemoterService(ctx, accessToken);
@@ -42,8 +43,9 @@ class Api extends BaseSchema {
       return Promise.reject(new Errors.UnAuthorizedError(Errors.ERR_NO_TOKEN, {}));
     }
   }
+
   @Method
-  private _getUserFromRemoterService(ctx: Moleculer.Context, accessToken): Promise<any> {
+    private _getUserFromRemoterService(ctx: Moleculer.Context, accessToken): Promise<any> {
     return Promise.resolve({user: {}});
   }
 }

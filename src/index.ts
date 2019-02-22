@@ -13,7 +13,7 @@ import {
   ServiceEventHandler
 } from 'moleculer';
 import * as _ from 'lodash';
-import Bluebird = require('bluebird');
+
 
 const blacklist = [
   'created',
@@ -26,7 +26,7 @@ const blacklist = [
   'logger'
 ];
 const blacklist2 = ['metadata', 'settings', 'mixins', 'name', 'version'].concat(
-  blacklist
+    blacklist
 );
 const defaultServiceOptions: Options = {
   constructOverride: true,
@@ -75,11 +75,11 @@ export function Method(target, key, descriptor) {
 export function Event(options?: EventOptions) {
   return function(target, key, descriptor) {
     (target.events || (target.events = {}))[key] = options
-      ? {
+        ? {
           ...options,
           handler: descriptor.value
         }
-      : descriptor.value;
+        : descriptor.value;
   };
 }
 
@@ -92,17 +92,18 @@ export function Action(options: ActionOptions = {}) {
     }
 
     (target.actions || (target.actions = {}))[key] = options
-      ? {
+        ? {
           ...options
         }
-      : options.skipHandler
-        ? ''
-        : descriptor.value;
+        : options.skipHandler
+            ? ''
+            : descriptor.value;
   };
 }
 
 export function Service(options: Options = {}): Function {
-  return function(constructor: Function) {
+  return function(constructor: Function
+  ) {
 
     let base = {};
     const _options = _.extend({}, defaultServiceOptions, options);
@@ -129,18 +130,18 @@ export function Service(options: Options = {}): Function {
 
           Object.getOwnPropertyNames(ServiceClass).forEach(function(key) {
             if (
-              blacklist.indexOf(key) === -1 &&
-              !_.isFunction(ServiceClass[key])
+                blacklist.indexOf(key) === -1 &&
+                !_.isFunction(ServiceClass[key])
             ) {
               base[key] = Object.getOwnPropertyDescriptor(
-                ServiceClass,
-                key
+                  ServiceClass,
+                  key
               )!.value;
               if (blacklist2.indexOf(key) === -1) {
                 // Needed, otherwize if the service is used as a mixin, these variables will overwrite the toplevel's
                 vars[key] = Object.getOwnPropertyDescriptor(
-                  ServiceClass,
-                  key
+                    ServiceClass,
+                    key
                 )!.value;
               }
             }
@@ -151,8 +152,8 @@ export function Service(options: Options = {}): Function {
           * Side note: This is quite hacky and would be a performance loss if the created function would be called over and over, since it's called once, it's more than fine :)
           */
 
-          const bypass: any = Object.defineProperty, // typescript fix
-            obj: any = {}; // placeholder
+          const bypass: any = Object.defineProperty; // typescript fix
+          const obj: any = {}; // placeholder
 
           // Defining our 'own' created function
           bypass(obj, 'created', {
@@ -164,8 +165,8 @@ export function Service(options: Options = {}): Function {
               // Check if user defined a created function, if so, we need to call it after ours.
               if (!_.isNil(Object.getOwnPropertyDescriptor(proto, 'created'))) {
                 Object.getOwnPropertyDescriptor(proto, 'created').value.call(
-                  this,
-                  broker
+                    this,
+                    broker
                 );
               }
             },
@@ -192,8 +193,8 @@ export function Service(options: Options = {}): Function {
 
       if (key === 'events' || key === 'methods' || key === 'actions') {
         base[key]
-          ? Object.assign(base[key], descriptor.value)
-          : (base[key] = descriptor.value);
+            ? Object.assign(base[key], descriptor.value)
+            : (base[key] = descriptor.value);
         return;
       }
     });

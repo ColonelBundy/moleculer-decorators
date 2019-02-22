@@ -1,6 +1,6 @@
 {
-	"rules": {
-		"member-access": false,
+  "rules": {
+    "member-access": false,
     "member-ordering": [
       true,
       {
@@ -77,7 +77,10 @@
     "jsdoc-format": true,
     "new-parens": true,
     "no-angle-bracket-type-assertion": true,
-    "no-consecutive-blank-lines": [true, 2],
+    "no-consecutive-blank-lines": [
+      true,
+      2
+    ],
     "one-line": [
       true,
       "check-catch",
@@ -86,7 +89,10 @@
       "check-open-brace",
       "check-whitespace"
     ],
-    "one-variable-per-declaration": [true, "ignore-for-loop"],
+    "one-variable-per-declaration": [
+      true,
+      "ignore-for-loop"
+    ],
     "quotemark": [
       true,
       "single",
@@ -147,5 +153,8 @@
         "allowSingleLine": true
       }
     ]
-  }
+  },
+  "rulesDirectory": [
+    "node_modules/tslint-eslint-rules/dist/rules"
+  ]
 }

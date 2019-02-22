@@ -1,4 +1,4 @@
-import {ServiceBroker} from 'moleculer';
+import { ServiceBroker } from 'moleculer';
 import * as request from 'supertest';
 
 describe('Moleculer', () => {

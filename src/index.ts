@@ -105,7 +105,7 @@ export function Service(options: Options = {}): Function {
   return function(constructor: Function
   ) {
 
-    let base = {};
+    let base = () => {};
     const _options = _.extend({}, defaultServiceOptions, options);
 
     Object.defineProperty(base, 'name', {
@@ -199,6 +199,6 @@ export function Service(options: Options = {}): Function {
       }
     });
 
-    return () => base;
+    return base;
   };
 }

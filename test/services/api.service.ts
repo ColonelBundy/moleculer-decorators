@@ -50,4 +50,4 @@ class Api extends BaseSchema {
   }
 }
 
-module.exports = (Api as Function)();
+module.exports = Api;

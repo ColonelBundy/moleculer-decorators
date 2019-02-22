@@ -35,4 +35,4 @@ class GetTest extends BaseSchema {
   }
 }
 
-module.exports = (GetTest as Function)();
+module.exports = GetTest;

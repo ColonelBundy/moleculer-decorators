@@ -102,7 +102,7 @@ export function Action(options: ActionOptions = {}) {
 }
 
 export function Service(options: Options = {}): Function {
-  return function(constructor: Function, propertyKey: string, descriptor: PropertyDescriptor) {
+  return function(constructor: Function) {
 
     let base = {};
     const _options = _.extend({}, defaultServiceOptions, options);

@@ -101,13 +101,14 @@ export function Action(options: ActionOptions = {}) {
   };
 }
 
-export function Service(options: Options = {}): any {
-  return function(target) {
+export function Service(options: Options = {}): Function {
+  return function(constructor: Function, propertyKey: string, descriptor: PropertyDescriptor) {
+
     let base = {};
     const _options = _.extend({}, defaultServiceOptions, options);
 
     Object.defineProperty(base, 'name', {
-      value: options.name || target.name,
+      value: options.name || constructor.name,
       writable: false,
       enumerable: true
     });
@@ -118,13 +119,13 @@ export function Service(options: Options = {}): any {
 
     Object.assign(base, _.omit(options, _.keys(defaultServiceOptions))); // Apply
 
-    const proto = target.prototype;
+    const proto = constructor.prototype;
     const vars = [];
     Object.getOwnPropertyNames(proto).forEach(function(key) {
       if (key === 'constructor') {
         if (_options.constructOverride) {
           // Override properties defined in @Service
-          const ServiceClass = new target.prototype[key]();
+          const ServiceClass = new constructor.prototype[key]();
 
           Object.getOwnPropertyNames(ServiceClass).forEach(function(key) {
             if (
@@ -197,6 +198,6 @@ export function Service(options: Options = {}): any {
       }
     });
 
-    return base;
+    return () => base;
   };
 }

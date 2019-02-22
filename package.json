@@ -42,6 +42,7 @@
     "rimraf": "^2.6.3",
     "moleculer-web": "^0.8.5",
     "supertest": "^3.4.2",
+    "reflect-metadata": "^0.1.13",
     "typescript": "^3.3.3333"
   },
   "jest": {

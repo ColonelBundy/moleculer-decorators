@@ -3,7 +3,7 @@ import {Context} from 'moleculer';
 import * as Moleculer from 'moleculer';
 import {BaseSchema, Method, Service} from '../../src';
 import * as ApiGateway from 'moleculer-web';
-
+import 'reflect-metadata';
 export interface User {
   id: string;
 }
@@ -12,6 +12,7 @@ const {Errors} = ApiGateway;
 
 @Service({
   mixins: [ApiGateway],
+  propertyKey: 'constructor',
   settings: {
     port: process.env.PORT || 9000,
     routes: [
@@ -27,7 +28,7 @@ const {Errors} = ApiGateway;
     ],
   },
 })
-class ApiGateWay extends BaseSchema {
+class Api extends BaseSchema {
   @Method
   public async authenticate(ctx: Context, route: string, req: IncomingMessage, res: ServerResponse) {
     const accessToken = req.headers.authorization;
@@ -48,4 +49,4 @@ class ApiGateWay extends BaseSchema {
   }
 }
 
-module.exports = ApiGateWay;
+module.exports = (Api as Function)();

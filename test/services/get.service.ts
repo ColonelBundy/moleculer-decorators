@@ -1,8 +1,7 @@
 import {Context, GenericObject} from 'moleculer';
 import {Action, BaseSchema, Method, Service} from '../../src';
-
 import {User} from './api.service';
-
+import 'reflect-metadata';
 interface ChatsActionParams {
   withUser: string;
 }
@@ -36,4 +35,4 @@ class GetTest extends BaseSchema {
   }
 }
 
-module.exports = GetTest;
+module.exports = (GetTest as Function)();

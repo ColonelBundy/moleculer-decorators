@@ -29,14 +29,44 @@
   },
   "homepage": "https://github.com/ColonelBundy/moleculer-decorators#readme",
   "dependencies": {
-    "lodash": "^4.17.4",
-    "moleculer": "^0.13.2"
+    "lodash": "^4.17.11",
+    "moleculer": "^0.13.7"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.100",
+    "@types/jest": "^24.0.6",
+    "jest": "^24.1.0",
+    "ts-jest": "^24.0.0",
+    "@types/lodash": "^4.14.121",
     "@types/node": "^7.0.12",
-    "nodemon": "^1.11.0",
-    "rimraf": "^2.6.1",
-    "typescript": "^3.0.3"
+    "nodemon": "^1.18.10",
+    "rimraf": "^2.6.3",
+    "moleculer-web": "^0.8.5",
+    "supertest": "^3.4.2",
+    "typescript": "^3.3.3333"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "rootDir": "./services",
+    "roots": [
+      "../test"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": ".*\\.(test|spec).(ts|js)$",
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "./tsconfig.json"
+      }
+    },
+    "setupFiles": [],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }

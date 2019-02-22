@@ -12,7 +12,6 @@ const {Errors} = ApiGateway;
 
 @Service({
   mixins: [ApiGateway],
-  propertyKey: 'constructor',
   settings: {
     port: process.env.PORT || 9000,
     routes: [

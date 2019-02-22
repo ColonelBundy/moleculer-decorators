@@ -1,14 +1,19 @@
 {
   "name": "moleculer-decorators",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "decorators for moleculer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "clean": "rimraf dist/*",
+    "tsc": "tsc",
+    "lint": "tslint -p tsconfig.json",
     "compile": "yarn clean && tsc && node dist/index.js",
     "dev": "nodemon --delay 2000 -e ts --exec \"yarn compile\"",
-    "test12": "nodemon --delay 2000 -e ts --exec \"yarn clean && tsc && node dist/testing/012.js\""
+    "test": "jest --coverage --forceExit --detectOpenHandles",
+    "test12": "nodemon --delay 2000 -e ts --exec \"yarn clean && tsc && node dist/testing/012.js\"",
+    "preversion": "npm run lint && npm run tsc && npm run test",
+    "postversion": "git push && git push --follow-tags"
   },
   "author": "Colonelbundy <colonelbundy@gmail.com>",
   "license": "MIT",
@@ -29,14 +34,47 @@
   },
   "homepage": "https://github.com/ColonelBundy/moleculer-decorators#readme",
   "dependencies": {
-    "lodash": "^4.17.4",
-    "moleculer": "^0.13.2"
+    "lodash": "^4.17.11",
+    "moleculer": "^0.13.7"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.100",
+    "@types/jest": "^24.0.6",
+    "jest": "^24.1.0",
+    "ts-jest": "^24.0.0",
+    "@types/lodash": "^4.14.121",
     "@types/node": "^7.0.12",
-    "nodemon": "^1.11.0",
-    "rimraf": "^2.6.1",
-    "typescript": "^3.0.3"
+    "nodemon": "^1.18.10",
+    "rimraf": "^2.6.3",
+    "tslint": "^5.12.1",
+    "tslint-eslint-rules": "^5.4.0",
+    "moleculer-web": "^0.8.5",
+    "supertest": "^3.4.2",
+    "reflect-metadata": "^0.1.13",
+    "typescript": "^3.3.3333"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "rootDir": "./services",
+    "roots": [
+      "../test"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": ".*\\.(test|spec).(ts|js)$",
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "./tsconfig.json"
+      }
+    },
+    "setupFiles": [],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }

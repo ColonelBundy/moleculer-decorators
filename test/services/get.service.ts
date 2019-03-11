@@ -33,6 +33,10 @@ class GetTest extends BaseSchema {
   private _getModel(withUser: string, fromUser: string): Promise<User> {
     return Promise.resolve({id: '5'});
   }
+
+  private created(): void {
+    this.logger.info('Successfully created!');
+  }
 }
 
 module.exports = GetTest;

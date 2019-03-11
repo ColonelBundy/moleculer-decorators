@@ -3,6 +3,7 @@ import {
   Action,
   ActionHandler,
   LoggerInstance,
+  Service as MoleculerService,
   ServiceMethods,
   ServiceEvents,
   Actions,
@@ -105,7 +106,9 @@ export function Service(options: Options = {}): Function {
   return function(constructor: Function
   ) {
 
-    let base = () => {};
+    let base: ServiceSchema = {
+      name: '' // will be overridden
+    };
     const _options = _.extend({}, defaultServiceOptions, options);
 
     Object.defineProperty(base, 'name', {
@@ -199,6 +202,10 @@ export function Service(options: Options = {}): Function {
       }
     });
 
-    return base;
+    return class extends MoleculerService {
+      constructor(broker) {
+        super(broker, base);
+      }
+    }
   };
 }

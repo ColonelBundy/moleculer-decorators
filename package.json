@@ -47,6 +47,7 @@
     "rimraf": "^2.6.3",
     "tslint": "^5.12.1",
     "tslint-eslint-rules": "^5.4.0",
+    "moleculer-db": "^0.7.7",
     "moleculer-web": "^0.8.5",
     "supertest": "^3.4.2",
     "reflect-metadata": "^0.1.13",

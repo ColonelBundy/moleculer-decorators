@@ -200,6 +200,16 @@ export function Service(options: Options = {}): Function {
             : (base[key] = descriptor.value);
         return;
       }
+
+      // moleculer-db lifecycle methods (https://github.com/ColonelBundy/moleculer-decorators/issues/2)
+      if (key === 'afterConnected'
+          || key === 'entityCreated'
+          || key === 'entityUpdated'
+          || key === 'entityRemoved'
+      ) {
+        base[key] = descriptor.value;
+        return;
+      }
     });
 
     return class extends MoleculerService {

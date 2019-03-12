@@ -36,7 +36,23 @@ describe('Moleculer', () => {
 
     it('should load the service dir', () => {
       expect(broker.loadServices('test/services', '*.service.ts'))
-        .toEqual(2);
+        .toEqual(3);
     })
+  });
+
+  describe('moleculer-db mixin', () => {
+    const db = require('./services/db.service');
+    const dbService = broker.createService(db);
+
+    it('should have all lifecycle methods available', () => {
+      expect(dbService.schema.afterConnected).toBeDefined();
+      expect(dbService.schema.entityCreated).toBeDefined();
+      expect(dbService.schema.entityUpdated).toBeDefined();
+      expect(dbService.schema.entityRemoved).toBeDefined();
+    });
+
+    it('should change a value of "connected" prop after start', () => {
+      expect(dbService.connected).toEqual(true);
+    });
   });
 });

@@ -20,7 +20,7 @@ skipHandler: true // false by default, this will let a mixin override the handle
 
 ```js
 const moleculer = require('moleculer');
-const { Service, Action, Event, Method, BaseSchema } = require('moleculer-decorators');
+const { Service, Action, Event, Method } = require('moleculer-decorators');
 const web = require('moleculer-web');
 const broker = new moleculer.ServiceBroker({
   logger: console,
@@ -36,7 +36,7 @@ const broker = new moleculer.ServiceBroker({
     ]
   }
 })
-class ServiceName extends BaseSchema { // Only need to extend if you are using typescript for intellisense support.
+class ServiceName extends moleculer.Service {
 
   // Optional constructor
   constructor() {
@@ -115,6 +115,41 @@ broker.start();
 ```js 
   module.exports = ServiceName 
 ``` 
+
+## Usage with custom ServiceFactory class
+> Moleculer allows you to define your own ServiceFactory class, from which your services should inherit. 
+> All you have to do, is pass your custom ServiceFactory to broker options and also extend your services from this class 
+```js
+const moleculer = require('moleculer');
+const { Service, Action } = require('moleculer-decorators');
+
+// create new service factory, inheriting from moleculer native Service
+class CustomService extends moleculer.Service {
+    constructor(broker, schema) {
+        super(broker, schema)
+    }
+
+    foo() {
+        return 'bar';
+    }
+}
+
+// pass your custom service factory to broker options
+const broker = new moleculer.ServiceBroker({
+  ServiceFactory: CustomService
+});
+
+@Service()
+class ServiceName extends CustomService { // extend your service from your custom service factory
+  @Action()
+  Bar(ctx) {
+    return this.foo();
+  }
+}
+
+broker.createService(CustomService);
+broker.start();
+```
 
 # License
 Moleculer Decorators is available under the [MIT license](https://tldrlegal.com/license/mit-license).

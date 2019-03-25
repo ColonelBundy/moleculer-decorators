@@ -1,5 +1,5 @@
-import { Context, GenericObject } from 'moleculer';
-import { Action, BaseSchema, Method, Service } from '../../src';
+import * as Moleculer from 'moleculer';
+import { Action, Method, Service } from '../../src';
 import { User } from './api.service';
 import 'reflect-metadata';
 interface ChatsActionParams {
@@ -11,13 +11,13 @@ export interface AuthMeta {
   $statusCode?: number;
 }
 
-export interface AuthContext<P = GenericObject> extends Context<P, AuthMeta> {
+export interface AuthContext<P = Moleculer.GenericObject> extends Moleculer.Context<P, AuthMeta> {
   meta: AuthMeta;
   params: P;
 }
 
 @Service()
-class GetTest extends BaseSchema {
+class GetTest extends Moleculer.Service {
   @Action({
     params: {
       withUser: 'string'

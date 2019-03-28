@@ -1,7 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { Context } from 'moleculer';
 import * as Moleculer from 'moleculer';
-import { BaseSchema, Method, Service } from '../../src';
+import { Method, Service } from '../../src';
 import * as ApiGateway from 'moleculer-web';
 import 'reflect-metadata';
 
@@ -28,9 +27,9 @@ const {Errors} = ApiGateway;
     ]
   }
 })
-class Api extends BaseSchema {
+class Api extends Moleculer.Service {
   @Method
-    public async authenticate(ctx: Context, route: string, req: IncomingMessage, res: ServerResponse) {
+    public async authenticate(ctx: Moleculer.Context, route: string, req: IncomingMessage, res: ServerResponse) {
     const accessToken = req.headers.authorization;
     if (accessToken) {
       const user = await this._getUserFromRemoterService(ctx, accessToken);

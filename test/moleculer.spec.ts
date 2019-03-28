@@ -1,15 +1,21 @@
 import { ServiceBroker } from 'moleculer';
+import { CustomService } from './customServices/CustomServiceFactory';
 import * as request from 'supertest';
 
 describe('Moleculer', () => {
   const broker = new ServiceBroker();
-
-  beforeAll(() => {
-    return broker.start();
+  const customizedBroker = new ServiceBroker({
+    ServiceFactory: CustomService
   });
 
-  afterAll(() => {
-    return broker.stop();
+  beforeAll(async () => {
+    await broker.start();
+    await customizedBroker.start();
+  });
+
+  afterAll(async () => {
+    await broker.stop();
+    await customizedBroker.stop();
   });
 
   describe('Test auth', () => {
@@ -53,6 +59,20 @@ describe('Moleculer', () => {
 
     it('should change a value of "connected" prop after start', () => {
       expect(dbService.connected).toEqual(true);
+    });
+  });
+
+  // when running via moleculer-runner, broker creates services with loadService
+  describe('Test broker ServiceFactory', () => {
+    const custom = require('./customServices/custom.service');
+    const customService = customizedBroker.createService(custom);
+
+    it('should load the service inherited from CustomService factory', () => {
+      expect(customService).toBeDefined();
+    });
+    it('should return "bar" value', async () => {
+      expect(await customizedBroker.call('CustomTest.testAction'))
+        .toEqual('bar');
     });
   });
 });

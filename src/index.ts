@@ -3,7 +3,6 @@ import {
   Action,
   ActionHandler,
   LoggerInstance,
-  Service as MoleculerService,
   ServiceMethods,
   ServiceEvents,
   Actions,
@@ -34,7 +33,12 @@ const defaultServiceOptions: Options = {
   skipHandler: false // not needed, just for clarity
 };
 
-// Needed for intellisense only pretty much.
+/**
+ * Don't use this anymore! You need a valid ServiceFactory class instance to extend from.
+ * Using BaseSchema will result in an error
+ *
+ * @deprecated
+ */
 export class BaseSchema {
   [x: string]: any;
 
@@ -123,13 +127,13 @@ export function Service(options: Options = {}): Function {
 
     Object.assign(base, _.omit(options, _.keys(defaultServiceOptions))); // Apply
 
-    const proto = constructor.prototype;
+    const parentService = constructor.prototype;
     const vars = [];
-    Object.getOwnPropertyNames(proto).forEach(function(key) {
+    Object.getOwnPropertyNames(parentService).forEach(function(key) {
       if (key === 'constructor') {
         if (_options.constructOverride) {
           // Override properties defined in @Service
-          const ServiceClass = new constructor.prototype[key]();
+          const ServiceClass = new parentService.constructor(new ServiceBroker()); // initializing from Moleculer ServiceFactory class
 
           Object.getOwnPropertyNames(ServiceClass).forEach(function(key) {
             if (
@@ -166,8 +170,8 @@ export function Service(options: Options = {}): Function {
               }
 
               // Check if user defined a created function, if so, we need to call it after ours.
-              if (!_.isNil(Object.getOwnPropertyDescriptor(proto, 'created'))) {
-                Object.getOwnPropertyDescriptor(proto, 'created').value.call(
+              if (!_.isNil(Object.getOwnPropertyDescriptor(parentService, 'created'))) {
+                Object.getOwnPropertyDescriptor(parentService, 'created').value.call(
                     this,
                     broker
                 );
@@ -183,7 +187,7 @@ export function Service(options: Options = {}): Function {
         return;
       }
 
-      const descriptor = Object.getOwnPropertyDescriptor(proto, key)!;
+      const descriptor = Object.getOwnPropertyDescriptor(parentService, key)!;
 
       if (key === 'created' && !_options.constructOverride) {
         base[key] = descriptor.value;
@@ -212,7 +216,7 @@ export function Service(options: Options = {}): Function {
       }
     });
 
-    return class extends MoleculerService {
+    return class extends parentService.constructor {
       constructor(broker) {
         super(broker, base);
       }

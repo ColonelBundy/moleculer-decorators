@@ -1,10 +1,11 @@
-import { BaseSchema, Service } from '../../src';
+import { Service } from '../../src';
+const moleculer = require('moleculer');
 const DbMixin = require('moleculer-db');
 
 @Service({
   mixins: [DbMixin]
 })
-class DbService extends BaseSchema {
+class DbService extends moleculer.Service {
   public connected: boolean = false;
 
   public afterConnected() {

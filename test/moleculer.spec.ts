@@ -3,9 +3,11 @@ import { CustomService } from './customServices/CustomServiceFactory';
 import * as request from 'supertest';
 
 describe('Moleculer', () => {
-  const broker = new ServiceBroker();
+  const broker = new ServiceBroker({ logLevel: 'warn' });
   const customizedBroker = new ServiceBroker({
-    ServiceFactory: CustomService
+    // @ts-ignore
+    ServiceFactory: CustomService,
+    logLevel: 'warn'
   });
 
   beforeAll(async () => {
@@ -26,9 +28,12 @@ describe('Moleculer', () => {
     const apiService = broker.createService(api);
 
     it('should pass auth', async () => {
-      return request(apiService.server).get('/getTest/getModel/5')
+      await request(apiService.server).get('/getTest/getModel/5')
         .set('Authorization', VALID_TOKEN)
         .expect(200);
+
+      // close HTTP service to release the port
+      broker.destroyService(apiService);
     });
   });
 

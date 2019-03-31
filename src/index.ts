@@ -33,29 +33,6 @@ const defaultServiceOptions: Options = {
   skipHandler: false // not needed, just for clarity
 };
 
-/**
- * Don't use this anymore! You need a valid ServiceFactory class instance to extend from.
- * Using BaseSchema will result in an error
- *
- * @deprecated
- */
-export class BaseSchema {
-  [x: string]: any;
-
-  logger: LoggerInstance;
-  name: string;
-  broker: ServiceBroker;
-
-  version: string | number;
-  settings: ServiceSettingSchema;
-  metadata: GenericObject;
-  mixins: Array<ServiceSchema>;
-
-  actions: Actions;
-  methods: ServiceMethods;
-  events: ServiceEvents;
-}
-
 export interface Options extends Partial<ServiceSchema> {
   name?: string;
   constructOverride?: boolean;
@@ -106,6 +83,9 @@ export function Action(options: ActionOptions = {}) {
   };
 }
 
+// Instead of using moleculer's ServiceBroker, we will fake the broker class to pass it to service constructor
+const mockServiceBroker = new Object({ Promise });
+
 export function Service(options: Options = {}): Function {
   return function(constructor: Function
   ) {
@@ -133,7 +113,7 @@ export function Service(options: Options = {}): Function {
       if (key === 'constructor') {
         if (_options.constructOverride) {
           // Override properties defined in @Service
-          const ServiceClass = new parentService.constructor(new ServiceBroker()); // initializing from Moleculer ServiceFactory class
+          const ServiceClass = new parentService.constructor(mockServiceBroker);
 
           Object.getOwnPropertyNames(ServiceClass).forEach(function(key) {
             if (
@@ -217,8 +197,10 @@ export function Service(options: Options = {}): Function {
     });
 
     return class extends parentService.constructor {
-      constructor(broker) {
-        super(broker, base);
+      constructor(broker, schema) {
+        super(broker, schema);
+
+        this.parseServiceSchema(base);
       }
     }
   };

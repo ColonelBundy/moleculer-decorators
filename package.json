@@ -1,6 +1,6 @@
 {
   "name": "moleculer-decorators",
-  "version": "1.0.21",
+  "version": "1.1.0",
   "description": "decorators for moleculer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

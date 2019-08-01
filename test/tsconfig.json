@@ -14,16 +14,13 @@
     "preserveConstEnums": true,
     "suppressImplicitAnyIndexErrors": true,
     "outDir": "dist",
-    "baseUrl": "./src/",
+    "baseUrl": ".",
     "paths": {
         "*": [
-            "src/*"
+            "*"
         ]
     }
   },
-  "include": [
-    "src/**/*.ts"
-  ],
   "exclude": [
     "node_modules",
     "typings/main",

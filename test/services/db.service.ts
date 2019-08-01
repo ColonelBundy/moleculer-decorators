@@ -1,11 +1,11 @@
 import { Service } from '../../src';
-const moleculer = require('moleculer');
-const DbMixin = require('moleculer-db');
+import * as moleculer from 'moleculer';
+import * as DbMixin from 'moleculer-db';
 
 @Service({
   mixins: [DbMixin]
 })
-class DbService extends moleculer.Service {
+export default class DbService extends moleculer.Service {
   public connected: boolean = false;
 
   public afterConnected() {
@@ -24,5 +24,3 @@ class DbService extends moleculer.Service {
     this.logger.info(data);
   }
 }
-
-module.exports = DbService;

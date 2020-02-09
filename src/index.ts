@@ -5,20 +5,20 @@ import {
   ServiceBroker,
   ServiceEvent,
   ServiceEventHandler
-} from 'moleculer';
-import * as _ from './util';
+} from "moleculer";
+import * as _ from "./util";
 
 const blacklist = [
-  'created',
-  'started',
-  'stopped',
-  'actions',
-  'methods',
-  'events',
-  'broker',
-  'logger'
+  "created",
+  "started",
+  "stopped",
+  "actions",
+  "methods",
+  "events",
+  "broker",
+  "logger"
 ];
-const blacklist2 = ['metadata', 'settings', 'mixins', 'name', 'version'].concat(
+const blacklist2 = ["metadata", "settings", "mixins", "name", "version"].concat(
   blacklist
 );
 const defaultServiceOptions: Options = {
@@ -43,12 +43,12 @@ export interface EventOptions extends Partial<ServiceEvent> {
   handler?: ServiceEventHandler; // not really used
 }
 
-export function Method(target, key, descriptor) {
+export function Method(target, key: string, descriptor: PropertyDescriptor) {
   (target.methods || (target.methods = {}))[key] = descriptor.value;
 }
 
 export function Event(options?: EventOptions) {
-  return function(target, key, descriptor) {
+  return function(target, key: string, descriptor: PropertyDescriptor) {
     (target.events || (target.events = {}))[key] = options
       ? {
           ...options,
@@ -59,7 +59,7 @@ export function Event(options?: EventOptions) {
 }
 
 export function Action(options: ActionOptions = {}) {
-  return function(target, key, descriptor) {
+  return function(target, key: string, descriptor: PropertyDescriptor) {
     if (!options.skipHandler) {
       options.handler = descriptor.value;
     } else {
@@ -71,7 +71,7 @@ export function Action(options: ActionOptions = {}) {
           ...options
         }
       : options.skipHandler
-      ? ''
+      ? ""
       : descriptor.value;
   };
 }
@@ -82,11 +82,11 @@ const mockServiceBroker = new Object({ Promise });
 export function Service(options: Options = {}): Function {
   return function(constructor: Function) {
     let base: ServiceSchema = {
-      name: '' // will be overridden
+      name: "" // will be overridden
     };
     const _options = Object.assign({}, defaultServiceOptions, options);
 
-    Object.defineProperty(base, 'name', {
+    Object.defineProperty(base, "name", {
       value: options.name || constructor.name,
       writable: false,
       enumerable: true
@@ -101,7 +101,7 @@ export function Service(options: Options = {}): Function {
     const parentService = constructor.prototype;
     const vars = [];
     Object.getOwnPropertyNames(parentService).forEach(function(key) {
-      if (key === 'constructor') {
+      if (key === "constructor") {
         if (_options.constructOverride) {
           // Override properties defined in @Service
           const ServiceClass = new parentService.constructor(mockServiceBroker);
@@ -134,7 +134,7 @@ export function Service(options: Options = {}): Function {
           const obj: any = {}; // placeholder
 
           // Defining our 'own' created function
-          bypass(obj, 'created', {
+          bypass(obj, "created", {
             value: function created(broker: ServiceBroker) {
               for (let key in vars) {
                 this[key] = vars[key];
@@ -142,12 +142,12 @@ export function Service(options: Options = {}): Function {
 
               // Check if user defined a created function, if so, we need to call it after ours.
               if (
-                Object.getOwnPropertyDescriptor(parentService, 'created') !=
+                Object.getOwnPropertyDescriptor(parentService, "created") !=
                 null
               ) {
                 Object.getOwnPropertyDescriptor(
                   parentService,
-                  'created'
+                  "created"
                 ).value.call(this, broker);
               }
             },
@@ -156,23 +156,23 @@ export function Service(options: Options = {}): Function {
             configurable: true
           });
 
-          base['created'] = obj.created;
+          base["created"] = obj.created;
         }
         return;
       }
 
       const descriptor = Object.getOwnPropertyDescriptor(parentService, key)!;
 
-      if (key === 'created' && !_options.constructOverride) {
+      if (key === "created" && !_options.constructOverride) {
         base[key] = descriptor.value;
       }
 
-      if (key === 'started' || key === 'stopped') {
+      if (key === "started" || key === "stopped") {
         base[key] = descriptor.value;
         return;
       }
 
-      if (key === 'events' || key === 'methods' || key === 'actions') {
+      if (key === "events" || key === "methods" || key === "actions") {
         base[key]
           ? Object.assign(base[key], descriptor.value)
           : (base[key] = descriptor.value);
@@ -181,16 +181,21 @@ export function Service(options: Options = {}): Function {
 
       // moleculer-db lifecycle methods (https://github.com/ColonelBundy/moleculer-decorators/issues/2)
       if (
-        key === 'afterConnected' ||
-        key === 'entityCreated' ||
-        key === 'entityUpdated' ||
-        key === 'entityRemoved'
+        key === "afterConnected" ||
+        key === "entityCreated" ||
+        key === "entityUpdated" ||
+        key === "entityRemoved"
       ) {
         base[key] = descriptor.value;
         return;
       }
     });
 
-    return base;
+    return class extends parentService.constructor {
+      constructor(broker, schema) {
+        super(broker, schema);
+        this.parseServiceSchema(base);
+      }
+    };
   };
 }

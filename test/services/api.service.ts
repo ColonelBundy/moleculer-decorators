@@ -1,7 +1,7 @@
-import { IncomingMessage, ServerResponse } from 'http';
-import * as Moleculer from 'moleculer';
-import { Method, Service } from '../../src';
-import * as ApiGateway from 'moleculer-web';
+import { IncomingMessage, ServerResponse } from "http";
+import * as Moleculer from "moleculer";
+import { Method, Service } from "../../src";
+import * as ApiGateway from "moleculer-web";
 
 export interface User {
   id: string;
@@ -16,10 +16,10 @@ const { Errors } = ApiGateway;
     routes: [
       {
         aliases: {
-          'GET getTest/getModel/:withUser': 'GetTest.getModel'
+          "GET getTest/getModel/:withUser": "GetTest.getModel"
         },
         authentication: true,
-        whitelist: ['**']
+        whitelist: ["**"]
       }
     ]
   }

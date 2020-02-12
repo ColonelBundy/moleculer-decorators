@@ -1,4 +1,4 @@
-import { Service } from 'moleculer';
+import { Service } from "moleculer";
 
 export class CustomService extends Service {
   constructor(broker, schema) {
@@ -6,6 +6,6 @@ export class CustomService extends Service {
   }
 
   foo() {
-    return 'bar';
+    return "bar";
   }
 }

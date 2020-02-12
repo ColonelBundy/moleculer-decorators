@@ -1,9 +1,9 @@
-import { Service } from '../../src';
-import * as moleculer from 'moleculer';
-import * as DbMixin from 'moleculer-db';
+import { Service } from "../../src";
+import * as moleculer from "moleculer";
+import * as DbMixin from "moleculer-db";
 
 @Service({
-  mixins: [DbMixin]
+  mixins: [DbMixin as any]
 })
 export default class DbService extends moleculer.Service {
   public connected: boolean = false;

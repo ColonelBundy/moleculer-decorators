@@ -1,6 +1,6 @@
-import * as Moleculer from 'moleculer';
-import { Action, Method, Service } from '../../src';
-import { User } from './api.service';
+import * as Moleculer from "moleculer";
+import { Action, Method, Service } from "../../src";
+import { User } from "./api.service";
 
 interface ChatsActionParams {
   withUser: string;
@@ -21,7 +21,7 @@ export interface AuthContext<P = Moleculer.GenericObject>
 export default class GetTest extends Moleculer.Service {
   @Action({
     params: {
-      withUser: 'string'
+      withUser: "string"
     }
   })
   public async getModel(ctx: AuthContext<ChatsActionParams>) {
@@ -32,10 +32,10 @@ export default class GetTest extends Moleculer.Service {
 
   @Method
   private _getModel(withUser: string, fromUser: string): Promise<User> {
-    return Promise.resolve({ id: '5' });
+    return Promise.resolve({ id: "5" });
   }
 
   private created(): void {
-    this.logger.info('Successfully created!');
+    this.logger.info("Successfully created!");
   }
 }

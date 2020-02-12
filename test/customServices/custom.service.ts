@@ -1,6 +1,6 @@
-import * as Moleculer from 'moleculer';
-import { CustomService } from './CustomServiceFactory';
-import { Action, Service } from '../../src';
+import * as Moleculer from "moleculer";
+import { CustomService } from "./CustomServiceFactory";
+import { Action, Service } from "../../src";
 
 @Service()
 export default class CustomTest extends CustomService {
@@ -10,6 +10,6 @@ export default class CustomTest extends CustomService {
   }
 
   private created(): void {
-    this.logger.info('Successfully created!');
+    this.logger.info("Successfully created!");
   }
 }

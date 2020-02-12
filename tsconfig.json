@@ -16,17 +16,9 @@
     "outDir": "dist",
     "baseUrl": "./src/",
     "paths": {
-        "*": [
-            "src/*"
-        ]
+      "*": ["src/*"]
     }
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "typings/main",
-    "typings/main.d.ts"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "typings/main", "typings/main.d.ts"]
 }

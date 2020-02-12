@@ -1,6 +1,6 @@
 {
   "name": "moleculer-decorators",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "decorators for moleculer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -33,23 +33,23 @@
   },
   "homepage": "https://github.com/ColonelBundy/moleculer-decorators#readme",
   "dependencies": {
-    "moleculer": "^0.13.9"
+    "moleculer": "^0.14.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.16",
-    "@types/node": "^12.6.8",
+    "@types/jest": "^25.1.2",
+    "@types/node": "^12.12.26",
     "@types/supertest": "^2.0.8",
-    "jest": "^24.8.0",
-    "moleculer-db": "^0.8.2",
+    "jest": "^24.9.0",
+    "moleculer-db": "^0.8.5",
     "moleculer-web": "^0.8.5",
-    "nodemon": "^1.18.10",
+    "nodemon": "^2.0.2",
     "reflect-metadata": "^0.1.13",
-    "rimraf": "^2.6.3",
-    "supertest": "^3.4.2",
-    "ts-jest": "^24.0.2",
-    "tslint": "^5.12.1",
+    "rimraf": "^3.0.2",
+    "supertest": "^4.0.2",
+    "ts-jest": "^25.2.0",
+    "tslint": "^6.0.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.5.3"
+    "typescript": "^3.7.5"
   },
   "jest": {
     "testEnvironment": "node",

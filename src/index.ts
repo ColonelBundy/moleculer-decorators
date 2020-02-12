@@ -1,10 +1,10 @@
 import {
   ServiceSchema,
-  Action,
+  ActionSchema,
   ActionHandler,
   ServiceBroker,
-  ServiceEvent,
-  ServiceEventHandler
+  ServiceEventHandler,
+  EventSchema
 } from "moleculer";
 import * as _ from "./util";
 
@@ -31,13 +31,13 @@ export interface Options extends Partial<ServiceSchema> {
   constructOverride?: boolean;
 }
 
-export interface ActionOptions extends Partial<Action> {
+export interface ActionOptions extends Partial<ActionSchema> {
   name?: string;
   handler?: ActionHandler<any>; // Not really used
   skipHandler?: boolean;
 }
 
-export interface EventOptions extends Partial<ServiceEvent> {
+export interface EventOptions extends Partial<EventSchema> {
   name?: string;
   group?: string;
   handler?: ServiceEventHandler; // not really used

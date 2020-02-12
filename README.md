@@ -7,7 +7,7 @@
 [![GitHub license](https://img.shields.io/github/license/ColonelBundy/moleculer-decorators.svg)](https://github.com/ColonelBundy/moleculer-decorators/blob/master/LICENSE)
 [![Powered by moleculer](https://img.shields.io/badge/Powered%20by-Moleculer-green.svg?colorB=0e83cd)](http://moleculer.services/)
 # Moleculer Decorators
-> Decorators for moleculer, Tested & accurate as of 0.13
+> Decorators for moleculer, Tested & accurate as of 0.14
 
 ## Available options
 ```js

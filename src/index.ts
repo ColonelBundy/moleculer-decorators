@@ -79,7 +79,8 @@ export function Action(options: ActionOptions = {}) {
 // Instead of using moleculer's ServiceBroker, we will fake the broker class to pass it to service constructor
 const mockServiceBroker = new Object({ Promise });
 
-export function Service(options: Options = {}): Function {
+export function Service<T extends Options>(opts: T): Function {
+  const options = opts || {} as Options;
   return function(constructor: Function) {
     let base: ServiceSchema = {
       name: "" // will be overridden

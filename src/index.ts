@@ -4,7 +4,7 @@ import {
   ActionHandler,
   ServiceBroker,
   ServiceEventHandler,
-  EventSchema
+  EventSchema,
 } from "moleculer";
 import * as _ from "./util";
 
@@ -16,14 +16,14 @@ const blacklist = [
   "methods",
   "events",
   "broker",
-  "logger"
+  "logger",
 ];
 const blacklist2 = ["metadata", "settings", "mixins", "name", "version"].concat(
   blacklist
 );
 const defaultServiceOptions: Options = {
   constructOverride: true,
-  skipHandler: false // not needed, just for clarity
+  skipHandler: false, // not needed, just for clarity
 };
 
 export interface Options extends Partial<ServiceSchema> {
@@ -48,18 +48,18 @@ export function Method(target, key: string, descriptor: PropertyDescriptor) {
 }
 
 export function Event(options?: EventOptions) {
-  return function(target, key: string, descriptor: PropertyDescriptor) {
+  return function (target, key: string, descriptor: PropertyDescriptor) {
     (target.events || (target.events = {}))[key] = options
       ? {
           ...options,
-          handler: descriptor.value
+          handler: descriptor.value,
         }
       : descriptor.value;
   };
 }
 
 export function Action(options: ActionOptions = {}) {
-  return function(target, key: string, descriptor: PropertyDescriptor) {
+  return function (target, key: string, descriptor: PropertyDescriptor) {
     if (!options.skipHandler) {
       options.handler = descriptor.value;
     } else {
@@ -68,7 +68,7 @@ export function Action(options: ActionOptions = {}) {
 
     (target.actions || (target.actions = {}))[key] = options
       ? {
-          ...options
+          ...options,
         }
       : options.skipHandler
       ? ""
@@ -79,18 +79,18 @@ export function Action(options: ActionOptions = {}) {
 // Instead of using moleculer's ServiceBroker, we will fake the broker class to pass it to service constructor
 const mockServiceBroker = new Object({ Promise });
 
-export function Service<T extends Options>(opts: T): Function {
-  const options = opts || {} as Options;
-  return function(constructor: Function) {
+export function Service<T extends Options>(opts: T = {} as T): Function {
+  const options = opts || ({} as Options);
+  return function (constructor: Function) {
     let base: ServiceSchema = {
-      name: "" // will be overridden
+      name: "", // will be overridden
     };
     const _options = Object.assign({}, defaultServiceOptions, options);
 
     Object.defineProperty(base, "name", {
       value: options.name || constructor.name,
       writable: false,
-      enumerable: true
+      enumerable: true,
     });
 
     if (options.name) {
@@ -101,13 +101,13 @@ export function Service<T extends Options>(opts: T): Function {
 
     const parentService = constructor.prototype;
     const vars = [];
-    Object.getOwnPropertyNames(parentService).forEach(function(key) {
+    Object.getOwnPropertyNames(parentService).forEach(function (key) {
       if (key === "constructor") {
         if (_options.constructOverride) {
           // Override properties defined in @Service
           const ServiceClass = new parentService.constructor(mockServiceBroker);
 
-          Object.getOwnPropertyNames(ServiceClass).forEach(function(key) {
+          Object.getOwnPropertyNames(ServiceClass).forEach(function (key) {
             if (
               blacklist.indexOf(key) === -1 &&
               !_.isFunction(ServiceClass[key])
@@ -154,7 +154,7 @@ export function Service<T extends Options>(opts: T): Function {
             },
             writable: true,
             enumerable: true,
-            configurable: true
+            configurable: true,
           });
 
           base["created"] = obj.created;

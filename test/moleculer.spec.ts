@@ -4,7 +4,7 @@ import api from "./services/api.service";
 import get from "./services/get.service";
 import db from "./services/db.service";
 import custom from "./customServices/custom.service";
-import * as request from "supertest";
+import request from "supertest";
 
 // Issues
 import issue20 from "./Schema/issue#20";
@@ -14,7 +14,7 @@ describe("Moleculer", () => {
   const customizedBroker = new ServiceBroker({
     // @ts-ignore
     ServiceFactory: CustomService,
-    logLevel: "warn"
+    logLevel: "warn",
   });
 
   beforeAll(async () => {

@@ -17,6 +17,7 @@ const blacklist = [
   "events",
   "broker",
   "logger",
+  "crons",
 ];
 const blacklist2 = ["metadata", "settings", "mixins", "name", "version"].concat(
   blacklist
@@ -75,6 +76,33 @@ export function Action(options: ActionOptions = {}) {
       : descriptor.value;
   };
 }
+
+// -------------------------------------------------
+
+export type CronJobOptions = {
+  cronTime: string;
+  timeZone?: string;
+  runOnInit?: () => void;
+  /** Leave default or set `false` to start automatically */
+  manualStart?: boolean;
+};
+
+export function CronJob(options: CronJobOptions): MethodDecorator {
+  return function CronJobDecorator(
+    target: any,
+    key: string,
+    descriptor: PropertyDescriptor
+  ) {
+    (target.crons || (target.crons = [])).push({
+      name: key,
+      onTick: descriptor.value,
+      manualStart: false,
+      ...options
+    });
+  };
+}
+
+// -------------------------------------------------
 
 // Instead of using moleculer's ServiceBroker, we will fake the broker class to pass it to service constructor
 const mockServiceBroker = new Object({ Promise });
@@ -173,7 +201,7 @@ export function Service<T extends Options>(opts: T = {} as T): Function {
         return;
       }
 
-      if (key === "events" || key === "methods" || key === "actions") {
+      if (key === "events" || key === "methods" || key === "actions" || key === "crons") {
         base[key]
           ? Object.assign(base[key], descriptor.value)
           : (base[key] = descriptor.value);

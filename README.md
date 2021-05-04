@@ -1,3 +1,30 @@
+# About
+
+Fork of https://github.com/ColonelBundy/moleculer-decorators with `@CronJob` decorator.
+
+Works with `Cron` mixin class taken form https://www.npmjs.com/package/moleculer-cron.
+
+Example usage:
+``` TypeScript
+import { Action, CronJob, Service } from 'moleculer-decorators';
+const Cron = require('moleculer-cron');
+
+@Service({
+  ...opts,
+  mixins: [Cron]
+})
+export class MyService extends moleculer.Service {
+  @CronJob({
+    cronTime: '* * * * * *'
+    // The same options as for `moleculer-cron`
+  })
+  async theJob() {
+    console.dir('I am the job that runs every second');
+  }
+}
+```
+# ...
+
 ![Moleculer logo](https://raw.githubusercontent.com/ice-services/moleculer/HEAD/docs/assets/logo.png)
 
 

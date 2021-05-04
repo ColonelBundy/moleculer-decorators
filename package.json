@@ -1,7 +1,7 @@
 {
-  "name": "moleculer-decorators",
-  "version": "1.3.0",
-  "description": "decorators for moleculer",
+  "name": "moleculer-decorators-extra",
+  "version": "1.0.0",
+  "description": "Decorators for moleculer. Fork of moleculer-decorators@1.3.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -14,24 +14,23 @@
     "preversion": "npm run lint && npm run tsc && npm run test",
     "postversion": "git push && git push --follow-tags"
   },
-  "author": "Colonelbundy <colonelbundy@gmail.com>",
+  "author": "Wojciech Fiderek <wojciech.fiderek.dev@gmail.com> (fork of Colonelbundy <colonelbundy@gmail.com>)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ColonelBundy/moleculer-decorators.git"
+    "url": "git+https://github.com/bytetechnology/moleculer-decorators.git"
   },
   "keywords": [
     "microservices",
     "microservice",
     "decorator",
-    "es6",
     "typescript",
     "moleculer"
   ],
   "bugs": {
-    "url": "https://github.com/ColonelBundy/moleculer-decorators/issues"
+    "url": "https://github.com/bytetechnology/moleculer-decorators/issues"
   },
-  "homepage": "https://github.com/ColonelBundy/moleculer-decorators#readme",
+  "homepage": "https://github.com/bytetechnology/moleculer-decorators#readme",
   "dependencies": {
     "moleculer": "^0.14.0"
   },

@@ -6,7 +6,7 @@ Works with `Cron` mixin class taken form https://www.npmjs.com/package/moleculer
 
 Example usage:
 ``` TypeScript
-import { Action, CronJob, Service } from 'moleculer-decorators';
+import { Action, CronJob, Service } from 'moleculer-decorators-extra';
 const Cron = require('moleculer-cron');
 
 @Service({

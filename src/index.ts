@@ -173,7 +173,7 @@ export function Service<T extends Options>(opts: T = {} as T): Function {
         return;
       }
 
-      if (key === "events" || key === "methods" || key === "actions") {
+      if (key === "events" || key === "methods" || key === "actions" || key === "queues") {
         base[key]
           ? Object.assign(base[key], descriptor.value)
           : (base[key] = descriptor.value);

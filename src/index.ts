@@ -1,7 +1,5 @@
 import {
   ServiceSchema,
-  ActionSchema,
-  ActionHandler,
   ServiceBroker,
   ServiceEventHandler,
   EventSchema,
@@ -32,12 +30,6 @@ export interface Options extends Partial<ServiceSchema> {
   constructOverride?: boolean;
 }
 
-export interface ActionOptions extends Partial<ActionSchema> {
-  name?: string;
-  handler?: ActionHandler<any>; // Not really used
-  skipHandler?: boolean;
-}
-
 export interface EventOptions extends Partial<EventSchema> {
   name?: string;
   group?: string;
@@ -59,23 +51,7 @@ export function Event(options?: EventOptions) {
   };
 }
 
-export function Action(options: ActionOptions = {}) {
-  return function (target, key: string, descriptor: PropertyDescriptor) {
-    if (!options.skipHandler) {
-      options.handler = descriptor.value;
-    } else {
-      delete options.skipHandler;
-    }
-
-    (target.actions || (target.actions = {}))[key] = options
-      ? {
-          ...options,
-        }
-      : options.skipHandler
-      ? ""
-      : descriptor.value;
-  };
-}
+export { Action, ActionOptions } from './action';
 
 // -------------------------------------------------
 

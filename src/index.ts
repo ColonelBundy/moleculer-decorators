@@ -89,7 +89,7 @@ export function Service<T extends Options>(opts: T = {} as T): Function {
 
     Object.defineProperty(base, "name", {
       value: options.name || constructor.name,
-      writable: false,
+      writable: true,
       enumerable: true,
     });
 

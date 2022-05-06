@@ -193,8 +193,8 @@ export function Service<T extends Options>(opts: T = {} as T): Function {
     });
 
     return class extends parentService.constructor {
-      constructor(broker, schema) {
-        super(broker, schema);
+      constructor(broker, ...args) {
+        super(broker, ...args);
         this.parseServiceSchema(base);
       }
     };
